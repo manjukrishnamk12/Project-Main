@@ -21,7 +21,9 @@ const Addmentor = (props) => {
     email: props.data ? props.data.email : '',
     phoneNumber: props.data ? props.data.phoneNumber : '',
     password: props.data ? props.data.password : '',
-    projectTitle: props.data ? props.data.projectTitle._id : '',
+    projectTitle: props.data && props.data.projectTitle ? props.data.projectTitle._id : '',
+
+    // projectTitle: props.data ? props.data.projectTitle._id : ' ',
   });
   const [errors, setErrors] = useState({});
   const [projectList, setProjectList] = useState([]); 
