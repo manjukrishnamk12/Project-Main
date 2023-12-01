@@ -1,16 +1,16 @@
 // Mentordash.jsx
 
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardContent, CardMedia, Container, Typography } from '@mui/material';
+import { Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const Mentordash = () => {
-  const { mentorId: urlMentorId } = useParams();
+ // const { mentorId: urlMentorId } = useParams();
   const [mentorId, setMentorId] = useState(null);
   const [mentorName, setMentorName] = useState('');
   const [mentorProjects, setMentorProjects] = useState([]);
-  // const [isLoading, setIsLoading] = useState(true);
+  
   const navigate = useNavigate();
 
  
@@ -18,7 +18,6 @@ const Mentordash = () => {
    
 
     const mentorId = localStorage.getItem("userid");
-    console.log('Mentor ID from state:', mentorId);
     if (mentorId) {
       axios
         .get(`http://localhost:3000/mentordash/mentors?id=${mentorId}`, {
@@ -28,11 +27,8 @@ const Mentordash = () => {
         })
         .then((response) => {
           const mentorData = response.data;
-          console.log("responsedata:::",{mentorData})
-          // Assuming you want to show only the first project, adjust accordingly
-          // const firstProject = mentorData[0];
-          setMentorName(mentorData.name);
-          setMentorProjects(mentorData);
+          setMentorName(mentorData.mentorName);
+          setMentorProjects(mentorData.projects);
           
         })
         .catch((error) => {
@@ -47,28 +43,30 @@ const Mentordash = () => {
   };
 
   return (
-
-    <div>
-      {/* <Typography variant="h4">Welcome, {mentorName}!</Typography> */}
-        <div>
-          {mentorProjects.map((project) => (
-            <Card key={project._id} onClick={() => handleCardClick(project._id)}>
-              <CardContent>
-                <Typography variant="h5">{project.title}</Typography>
-                <Typography variant="body2">{project.description}</Typography>
+  <div>
+    <Typography id="mentordisplay" variant="h4">Welcome, {mentorName} !</Typography>
+    
+    <Container maxWidth="lg" id="card-container"> {/* Added Container with maxWidth and id */}
+      {mentorProjects.length === 0 ? (
+        <Typography variant="h5" style={{alignItems:'center'}}>No projects assigned.</Typography>
+      ) : (
+      <Grid container spacing={3}>
+        {mentorProjects.map((project, i) => (
+          <Grid item key={i} xs={12} sm={6} md={4}>
+            <Card className="mcard" onClick={() => handleCardClick(project._id)}>
+              <CardMedia className="card-media" image={project.imageUrl} title={project.title} style={{ height: '190px'}} />
+              <CardContent className="card-content">
+                <Typography gutterBottom variant="h5" component="div">
+                  <strong>{project.title}</strong>
+                </Typography>
               </CardContent>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleCardClick(project._id)}
-              >
-                Go to Submission
-              </Button>
             </Card>
-          ))}
-        </div>
-      
-    </div>
+          </Grid>
+        ))}
+      </Grid>
+      )}
+    </Container>
+  </div>
   );
 };
 

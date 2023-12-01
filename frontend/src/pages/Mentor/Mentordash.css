@@ -113,3 +113,47 @@
   
   /* End Sidebar  */
   
+  /* Mentordashboard project view */
+  #mentordisplay{
+    margin:20px;
+  }
+  #card-container {
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: center;
+    margin:2rem 4rem;
+  }
+  
+  .mcard {
+    width: 100%;
+    max-width: 345px;
+    height: 300px; /* Adjust the height as needed */
+    margin: 1rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .mcard:hover {
+    transform: scale(1.05);
+  }
+  
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    
+  } 
+     
+  /* Media query for small screens */
+  @media (max-width: lg) {
+    #card-container {
+      flex-direction: column; /* Stack cards vertically on small screens */
+      align-items: center;
+    }
+  
+    .card {
+      max-width: 100%; /* Make cards take full width on small screens */
+    }
+  }
+  
+  /* end mentordashboard view */
